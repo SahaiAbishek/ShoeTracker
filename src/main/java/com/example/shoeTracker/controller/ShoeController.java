@@ -1,5 +1,7 @@
 package com.example.shoeTracker.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.shoeTracker.entity.ShoeEntity;
 import com.example.shoeTracker.entity.UserEntity;
 import com.example.shoeTracker.model.Shoe;
+import com.example.shoeTracker.repo.ShoeRepo;
 import com.example.shoeTracker.repo.UserRepo;
 
 import io.swagger.annotations.ApiResponse;
@@ -33,12 +36,19 @@ public class ShoeController {
 
 	@Autowired
 	private UserRepo userRepo;
-//	@Autowired
-//	private ShoeRepo shoeRepo;
+	@Autowired
+	private ShoeRepo shoeRepo;
 
 	@GetMapping(value = "/users/{userID}/shoes/", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Shoe> getAllShoes(@PathVariable String userID) {
-		return new ResponseEntity<>(new Shoe(), HttpStatus.OK);
+	public ResponseEntity<List<Shoe>> getAllShoes(@PathVariable String userID) {
+		List<ShoeEntity> shoeEntitys = shoeRepo.findByUsers_Id(new Long(userID));
+		List<Shoe> shoes = new ArrayList<>();
+		for (ShoeEntity shoeEntity : shoeEntitys) {
+			Shoe shoe = new Shoe();
+			BeanUtils.copyProperties(shoeEntity, shoe);
+			shoes.add(shoe);
+		}
+		return new ResponseEntity<>(shoes, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/users/{userID}/shoes/search", produces = MediaType.APPLICATION_JSON_VALUE)

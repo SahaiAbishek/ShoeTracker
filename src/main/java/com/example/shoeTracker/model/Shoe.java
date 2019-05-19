@@ -14,6 +14,16 @@ public class Shoe implements Serializable {
 	private Date endDate;
 	private String description;
 	private String nickName;
+	private String size;
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	private byte[] pic;
 
 	public String getBrand() {

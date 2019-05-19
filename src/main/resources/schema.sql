@@ -22,6 +22,7 @@ create table shoes
 	end_date date,
 	description varchar(255),
 	name varchar(255),
+	size varchar(255),
 	pic blob,
 	primary key(shoe_id)
 );

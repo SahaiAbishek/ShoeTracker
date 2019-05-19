@@ -38,9 +38,19 @@ public class ShoeEntity implements Serializable {
 	private String nickName;
 	@Column(name = "pic")
 	private byte[] pic;
+	@Column(name = "size")
+	private String size;
 
 	@ManyToMany(mappedBy = "shoes")
 	Set<UserEntity> users;
+
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
 
 	public Long getId() {
 		return id;
